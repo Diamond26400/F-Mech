@@ -15,6 +15,6 @@ public class Rotate : MonoBehaviour
     void Update()
     {
         float horizontalInput = Input.GetAxis("Horizontal");
-         transform.Rotate(Vector3.up * rotatespeed * Time.deltaTime);
+         transform.Rotate(Vector3.up * horizontalInput* rotatespeed);
     }
 }
