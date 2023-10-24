@@ -8,7 +8,7 @@ public class PlayerController : MonoBehaviour
     private Rigidbody PlayerRb;
     private GameObject FocalPoint;
     public float speed = 12.0f;
-    public bool gainedPowerUP;
+    public bool gainedPowerUP = false;
     // Start is called before the first frame update
     void Start()
     {
