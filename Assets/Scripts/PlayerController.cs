@@ -10,6 +10,8 @@ public class PlayerController : MonoBehaviour
     public float speed = 12.0f;
     public bool gainedPowerUP = false;
     private float powerUpStrength = 25.0f;
+    public GameObject PoweUPIndicator;
+
 
     // Start is called before the first frame update
     void Start()
@@ -24,6 +26,7 @@ public class PlayerController : MonoBehaviour
         
         float VerticalInput = Input.GetAxis("Vertical");
        PlayerRb.AddForce(FocalPoint.transform.forward * VerticalInput * speed );
+        PoweUPIndicator.transform.position = transform.position + new Vector3(0, -0.5f, 0);
     }
     private void OnTriggerEnter(Collider other)
     {
@@ -32,14 +35,15 @@ public class PlayerController : MonoBehaviour
             gainedPowerUP = true;
             Destroy(other.gameObject);
             StartCoroutine(CountDounRoutine());
+            PoweUPIndicator.SetActive(true);
         }
     }
     IEnumerator CountDounRoutine()
     {
         yield return new WaitForSeconds(7);
               gainedPowerUP = false;
-
-}
+        PoweUPIndicator.SetActive(false);
+     }
     private void OnCollisionEnter(Collision collision)
     {
         if (collision.gameObject.CompareTag("Enemy") && gainedPowerUP)
