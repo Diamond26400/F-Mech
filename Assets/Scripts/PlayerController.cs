@@ -31,9 +31,16 @@ public class PlayerController : MonoBehaviour
         {
             gainedPowerUP = true;
             Destroy(other.gameObject);
+            StartCoroutine(CountDounRoutine());
         }
     }
-    private void OncollisionEnter(Collision collision)
+    IEnumerator CountDounRoutine()
+    {
+        yield return new WaitForSeconds(7);
+              gainedPowerUP = false;
+
+}
+    private void OnCollisionEnter(Collision collision)
     {
         if (collision.gameObject.CompareTag("Enemy") && gainedPowerUP)
         {
