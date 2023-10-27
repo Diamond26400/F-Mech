@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using Unity.VisualScripting;
 using UnityEngine;
 
 public class SpawnManager : MonoBehaviour
@@ -7,25 +8,27 @@ public class SpawnManager : MonoBehaviour
     public GameObject enemyPreferb;
     private float spawnRange = 9.0f;
     public int enemyCount ;
+    public int waveNumber = 1;
+    public GameObject powerUpPreferb;
     // Start is called before the first frame update
 
 
     void Start()
     {
-        spawnEnemyWave(3);
-
+        spawnEnemyWave(waveNumber);
+        Instantiate(powerUpPreferb, GenerateSpawnPosition(), powerUpPreferb.transform.rotation);
     }
 
     void spawnEnemyWave(int EnemiesToSpawn )
     {
-        for (int i = 0; i< EnemiesToSpawn; i++)
+        for (int waveNumber = 0; waveNumber < EnemiesToSpawn; waveNumber++)
         {
              
             Instantiate(enemyPreferb, GenerateSpawnPosition(), enemyPreferb.transform.rotation);
             if (enemyCount == 0)
             {
-                spawnEnemyWave(1);
-
+                spawnEnemyWave(waveNumber);
+                Instantiate(powerUpPreferb, GenerateSpawnPosition(), powerUpPreferb.transform.rotation);
             }
         }
 
