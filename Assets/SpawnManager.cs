@@ -7,10 +7,20 @@ public class SpawnManager : MonoBehaviour
     public GameObject enemyPreferb;
     private float spawnRange = 9.0f;
     // Start is called before the first frame update
+
+
+    private void spawnEnemyWave()
+    {
+        for (int i = 0; i < 3; i++)
+        {
+
+            Instantiate(enemyPreferb, GenerateSpawnPosition(), enemyPreferb.transform.rotation);
+        }
+    }
     void Start()
     {
 
-        Instantiate(enemyPreferb, GenerateSpawnPosition(), enemyPreferb.transform.rotation);
+
     }
 
     // Update is called once per frame
