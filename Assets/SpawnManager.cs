@@ -9,17 +9,19 @@ public class SpawnManager : MonoBehaviour
     // Start is called before the first frame update
 
 
-    private void spawnEnemyWave()
+    void Start()
+    {
+        spawnEnemyWave();
+
+    }
+
+    void spawnEnemyWave()
     {
         for (int i = 0; i < 3; i++)
         {
 
             Instantiate(enemyPreferb, GenerateSpawnPosition(), enemyPreferb.transform.rotation);
         }
-    }
-    void Start()
-    {
-
 
     }
 
