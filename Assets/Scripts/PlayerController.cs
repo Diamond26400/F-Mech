@@ -5,17 +5,20 @@ using UnityEngine;
 
 public class PlayerController : MonoBehaviour
 {
+    //calling game object
     private Rigidbody PlayerRb;
     private GameObject FocalPoint;
-    public float speed = 12.0f;
-    public bool gainedPowerUP = false;
-    private float powerUpStrength = 30.0f;
     public GameObject PoweUPIndicator;
+
+    public bool gainedPowerUP = false;
+    public float speed = 12.0f;
+    private float powerUpStrength = 30.0f;
 
 
     // Start is called before the first frame update
     void Start()
     {
+        //calling game object
         PlayerRb = GetComponent<Rigidbody>();
         FocalPoint = GameObject.Find("Rotate-cam");
     }
@@ -23,14 +26,15 @@ public class PlayerController : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        
+        //player controls & position
         float VerticalInput = Input.GetAxis("Vertical");
-       PlayerRb.AddForce(FocalPoint.transform.forward * VerticalInput * speed );
+        PlayerRb.AddForce(FocalPoint.transform.forward * VerticalInput * speed);
         PoweUPIndicator.transform.position = transform.position + new Vector3(0, -0.5f, 0);
     }
     private void OnTriggerEnter(Collider other)
     {
-        if(other.CompareTag("PowerUp"))
+        // player collides with power up
+        if (other.CompareTag("PowerUp"))
         {
             gainedPowerUP = true;
             Destroy(other.gameObject);
@@ -40,21 +44,23 @@ public class PlayerController : MonoBehaviour
     }
     IEnumerator CountDounRoutine()
     {
+        //creating personal timer  till energy last
         yield return new WaitForSeconds(7);
-              gainedPowerUP = false;
+        gainedPowerUP = false;
         PoweUPIndicator.SetActive(false);
-     }
+    }
     private void OnCollisionEnter(Collision collision)
     {
         if (collision.gameObject.CompareTag("Enemy") && gainedPowerUP)
         {
+            //Getting enemy rigid body to collide with player
             Rigidbody enemyRigidbody = collision.gameObject.GetComponent<Rigidbody>();
             Vector3 awayFromPlayer = (collision.gameObject.transform.position - transform.position);
 
+            // implementing rigid body & other
             Debug.Log("collide with" + collision.gameObject.name + " with power up set to " + gainedPowerUP);
-
             enemyRigidbody.AddForce(awayFromPlayer * powerUpStrength, ForceMode.Impulse);
         }
     }
-    
+
 }
