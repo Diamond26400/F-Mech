@@ -7,16 +7,17 @@ public class Restart : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        
+
     }
 
     // Update is called once per frame
     void Update()
     {
-        
+
     }
     public void restartButton()
     {
+        //Restart all the scene 
         SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex);
     }
 }

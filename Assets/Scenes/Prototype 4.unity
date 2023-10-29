@@ -382,6 +382,9 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   enemyPreferb: {fileID: 2318465422827271673, guid: c1b092e09188d3b489b902abffee3afd, type: 3}
+  powerUpPreferb: {fileID: 5505882384480553741, guid: 3e9793b4ec0c7c44790bed993b51e7bd, type: 3}
+  enemyCount: 0
+  waveNumber: 1
 --- !u!4 &717066016
 Transform:
   m_ObjectHideFlags: 0
@@ -1152,9 +1155,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 53cf4742a04d35e4292864eac7f80a91, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  speed: 30
-  gainedPowerUP: 0
   PoweUPIndicator: {fileID: 1728851414}
+  gainedPowerUP: 0
+  speed: 30
 --- !u!54 &1615651495
 Rigidbody:
   m_ObjectHideFlags: 0
