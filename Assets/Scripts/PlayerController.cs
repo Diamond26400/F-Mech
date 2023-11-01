@@ -10,9 +10,9 @@ public class PlayerController : MonoBehaviour
     private GameObject FocalPoint;
     public GameObject PoweUPIndicator;
 
-    public bool gainedPowerUP = false;
+    public bool gainedPowerUP ;
     public float speed = 12.0f;
-    private float powerUpStrength = 30.0f;
+    public float powerUpStrength = 30000.0f;
 
 
     // Start is called before the first frame update
