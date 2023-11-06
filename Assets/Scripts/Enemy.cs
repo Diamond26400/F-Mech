@@ -6,13 +6,14 @@ public class Enemy : MonoBehaviour
 {
     public float speed = 5.0f;
 
-    private Rigidbody enemyRb;
+    private Rigidbody enemiesPreferb;
     private GameObject player;
+    
     // Start is called before the first frame update
     void Start()
     {
         //calling Game object and physics
-        enemyRb = GetComponent<Rigidbody>();
+      
         player = GameObject.Find("Player");
     }
 
@@ -20,10 +21,12 @@ public class Enemy : MonoBehaviour
     void Update()
     {
         Vector3 lookDirection = (player.transform.position - transform.position).normalized;
-        enemyRb.AddForce(lookDirection * speed);
+        enemiesPreferb.AddForce(lookDirection);
+        //enemyRb.AddForce(lookDirection * speed);
         if (transform.position.y < -10)
         {
             Destroy(gameObject);
         }
     }
+    
 }
