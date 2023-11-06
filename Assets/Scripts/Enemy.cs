@@ -21,7 +21,7 @@ public class Enemy : MonoBehaviour
     void Update()
     {
         Vector3 lookDirection = (player.transform.position - transform.position).normalized;
-        enemiesPreferb.AddForce(lookDirection);
+        enemiesPreferb.AddForce(lookDirection * speed);
         //enemyRb.AddForce(lookDirection * speed);
         if (transform.position.y < -10)
         {
