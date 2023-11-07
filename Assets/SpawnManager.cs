@@ -1,61 +1,58 @@
 using System.Collections;
 using System.Collections.Generic;
-using Unity.VisualScripting;
+
 using UnityEngine;
 
 public class SpawnManager : MonoBehaviour
 {
-    //integretaed GameObject
-    public GameObject enemyPreferb;
-    public GameObject powerUpPreferb;
+    public GameObject[] enemyPrefabs; // Array of different enemy prefabs
+    public GameObject powerUpPrefab;
 
-    //numbers
+
     private float spawnRange = 9.0f;
     public int enemyCount;
     public int waveNumber = 1;
 
-    // Start is called before the first frame update
-
 
     void Start()
     {
-        //number of enemies spawn
         spawnEnemyWave(waveNumber);
-        Instantiate(powerUpPreferb, GenerateSpawnPosition(), powerUpPreferb.transform.rotation);
+        Instantiate(powerUpPrefab, GenerateSpawnPosition(), powerUpPrefab.transform.rotation);
     }
 
-    //four loop to spawn power up & enemies alsogenerating position
-    void spawnEnemyWave(int EnemiesToSpawn)
+    void spawnEnemyWave(int enemiesToSpawn)
     {
-        for (int waveNumber = 0; waveNumber < EnemiesToSpawn; waveNumber++)
+        for (int i = 0; i < enemiesToSpawn; i++)
         {
+            // Randomly select an enemy prefab
+            int randomIndex = Random.Range(0, enemyPrefabs.Length);
+            GameObject selectedEnemyPrefab = enemyPrefabs[randomIndex];
 
-            Instantiate(enemyPreferb, GenerateSpawnPosition(), enemyPreferb.transform.rotation);
-            if (enemyCount == 0)
-            {
-                spawnEnemyWave(waveNumber);
-                Instantiate(powerUpPreferb, GenerateSpawnPosition(), powerUpPreferb.transform.rotation);
-            }
+            Vector3 spawnPosition = GenerateSpawnPosition();
+            Instantiate(selectedEnemyPrefab, spawnPosition, selectedEnemyPrefab.transform.rotation);
         }
-
     }
 
-    // Update is called once per frame
-    void Update() 
+    void Update()
     {
-        //calling Enemy
         enemyCount = FindObjectsOfType<Enemy>().Length;
+
+        if (enemyCount == 0)
+        {
+            waveNumber++;
+            spawnEnemyWave(waveNumber);
+            Instantiate(powerUpPrefab, GenerateSpawnPosition(), powerUpPrefab.transform.rotation);
+        }
     }
 
-    //random position void Generated
     private Vector3 GenerateSpawnPosition()
     {
-        float spawnprosX = Random.Range(-spawnRange, spawnRange);
-        float spawnprosZ = Random.Range(-spawnRange, spawnRange);
+        float spawnPosX = Random.Range(-spawnRange, spawnRange);
+        float spawnPosZ = Random.Range(-spawnRange, spawnRange);
 
-        Vector3 randompos = new Vector3(spawnprosX, 0, spawnprosZ);
+        Vector3 randomPos = new Vector3(spawnPosX, 0, spawnPosZ);
 
-        return randompos;
-
+        return randomPos;
     }
 }
+
