@@ -35,7 +35,8 @@ public class SpawnManager : MonoBehaviour
 
     void Update()
     {
-        enemyCount = FindObjectsOfType<Enemy>().Length;
+        enemyCount = GameObject.FindGameObjectsWithTag("Enemy").Length;
+
 
         if (enemyCount == 0)
         {
