@@ -12,7 +12,7 @@ public class PlayerController : MonoBehaviour
 
     public bool gainedPowerUP ;
     public float speed = 12.0f;
-    public float powerUpStrength = 30000.0f;
+    public float powerUpStrength = 300.0f;
 
 
     // Start is called before the first frame update
@@ -58,7 +58,7 @@ public class PlayerController : MonoBehaviour
             Vector3 awayFromPlayer = (collision.gameObject.transform.position - transform.position);
 
             // implementing rigid body & other
-            Debug.Log("collide with" + collision.gameObject.name + " with power up set to " + gainedPowerUP);
+            Debug.Log("collide with " + collision.gameObject.name + " with power up set to " + gainedPowerUP);
             enemyRigidbody.AddForce(awayFromPlayer * powerUpStrength, ForceMode.Impulse);
         }
     }
