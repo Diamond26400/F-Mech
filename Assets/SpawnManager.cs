@@ -27,7 +27,7 @@ public class SpawnManagerX : MonoBehaviour
             if (enemyPrefab != null)
             {
                 // Call a method to spawn the enemy wave with the updated speed
-                SpawnEnemyWave(waveCount, currentEnemySpeed);
+                StartCoroutine(SpawnEnemyWaveCoroutine(waveCount, currentEnemySpeed));
             }
             else
             {
@@ -36,14 +36,7 @@ public class SpawnManagerX : MonoBehaviour
         }
     }
 
-    Vector3 GenerateSpawnPosition()
-    {
-        float xPos = Random.Range(-spawnRangeX, spawnRangeX);
-        float zPos = Random.Range(spawnZMin, spawnZMax);
-        return new Vector3(xPos, 0, zPos);
-    }
-
-    void SpawnEnemyWave(int enemiesToSpawn, float enemySpeed)
+    IEnumerator SpawnEnemyWaveCoroutine(int enemiesToSpawn, float enemySpeed)
     {
         for (int i = 0; i < enemiesToSpawn; i++)
         {
@@ -65,6 +58,8 @@ public class SpawnManagerX : MonoBehaviour
             {
                 Debug.LogError("Failed to instantiate enemy prefab.");
             }
+
+            yield return null; // Wait for the next frame before spawning the next enemy
         }
 
         waveCount++;
@@ -77,5 +72,13 @@ public class SpawnManagerX : MonoBehaviour
         player.GetComponent<Rigidbody>().velocity = Vector3.zero;
         player.GetComponent<Rigidbody>().angularVelocity = Vector3.zero;
     }
+
+    Vector3 GenerateSpawnPosition()
+    {
+        float xPos = Random.Range(-spawnRangeX, spawnRangeX);
+        float zPos = Random.Range(spawnZMin, spawnZMax);
+        return new Vector3(xPos, 0, zPos);
+    }
 }
+
 
