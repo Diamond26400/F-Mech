@@ -6,7 +6,7 @@ public class Bullet : MonoBehaviour
 {
     private float speed = 25.0f;
     public Transform position;
-
+    public GameObject bullet;
     // Start is called before the first frame update
     void Start()
     {
@@ -18,6 +18,7 @@ public class Bullet : MonoBehaviour
     {
         if (Input.GetKeyDown(KeyCode.Space))
         {
+            transform.Translate(Vector3.forward * speed * Time.deltaTime);
             Shoot();
         }
 
