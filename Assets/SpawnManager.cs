@@ -1,59 +1,81 @@
 using System.Collections;
-using System.Collections.Generic;
-
 using UnityEngine;
 
-public class SpawnManager : MonoBehaviour
+public class SpawnManagerX : MonoBehaviour
 {
-    public GameObject[] enemyPrefabs; // Array of different enemy prefabs
-    public GameObject powerUpPrefab;
+    public GameObject enemyPrefab;
+    public GameObject powerupPrefab;
+    public WaveManager waveManager; // Assign the WaveManager in the Inspector
 
+    private float spawnRangeX = 10;
+    private float spawnZMin = 15;
+    private float spawnZMax = 25;
 
-    private float spawnRange = 9.0f;
     public int enemyCount;
-    public int waveNumber = 1;
+    public int waveCount = 1;
 
-
-    void Start()
-    {
-        spawnEnemyWave(waveNumber);
-        Instantiate(powerUpPrefab, GenerateSpawnPosition(), powerUpPrefab.transform.rotation);
-    }
-
-    void spawnEnemyWave(int enemiesToSpawn)
-    {
-        for (int i = 0; i < enemiesToSpawn; i++)
-        {
-            // Randomly select an enemy prefab
-            int randomIndex = Random.Range(0, enemyPrefabs.Length);
-            GameObject selectedEnemyPrefab = enemyPrefabs[randomIndex];
-
-            Vector3 spawnPosition = GenerateSpawnPosition();
-            Instantiate(selectedEnemyPrefab, spawnPosition, selectedEnemyPrefab.transform.rotation);
-        }
-    }
+    public GameObject player;
 
     void Update()
     {
         enemyCount = GameObject.FindGameObjectsWithTag("Enemy").Length;
 
-
-        if (enemyCount == 0)
+        if (enemyCount == 0 && waveManager != null)
         {
-            waveNumber++;
-            spawnEnemyWave(waveNumber);
-            Instantiate(powerUpPrefab, GenerateSpawnPosition(), powerUpPrefab.transform.rotation);
+            float currentEnemySpeed = waveManager.GetEnemySpeedForCurrentWave();
+
+            if (enemyPrefab != null)
+            {
+                // Call a method to spawn the enemy wave with the updated speed
+                SpawnEnemyWave(waveCount, currentEnemySpeed);
+            }
+            else
+            {
+                Debug.LogError("Enemy prefab is not assigned to the SpawnManagerX script.");
+            }
         }
     }
 
-    private Vector3 GenerateSpawnPosition()
+    Vector3 GenerateSpawnPosition()
     {
-        float spawnPosX = Random.Range(-spawnRange, spawnRange);
-        float spawnPosZ = Random.Range(-spawnRange, spawnRange);
+        float xPos = Random.Range(-spawnRangeX, spawnRangeX);
+        float zPos = Random.Range(spawnZMin, spawnZMax);
+        return new Vector3(xPos, 0, zPos);
+    }
 
-        Vector3 randomPos = new Vector3(spawnPosX, 0, spawnPosZ);
+    void SpawnEnemyWave(int enemiesToSpawn, float enemySpeed)
+    {
+        for (int i = 0; i < enemiesToSpawn; i++)
+        {
+            GameObject newEnemy = Instantiate(enemyPrefab, GenerateSpawnPosition(), enemyPrefab.transform.rotation);
 
-        return randomPos;
+            if (newEnemy != null)
+            {
+                Enemy enemyScript = newEnemy.GetComponent<Enemy>();
+                if (enemyScript != null)
+                {
+                    enemyScript.speed = enemySpeed; // Set the enemy speed
+                }
+                else
+                {
+                    Debug.LogError("Enemy script is missing on the spawned enemy.");
+                }
+            }
+            else
+            {
+                Debug.LogError("Failed to instantiate enemy prefab.");
+            }
+        }
+
+        waveCount++;
+        ResetPlayerPosition();
+    }
+
+    void ResetPlayerPosition()
+    {
+        player.transform.position = new Vector3(0, 1, -7);
+        player.GetComponent<Rigidbody>().velocity = Vector3.zero;
+        player.GetComponent<Rigidbody>().angularVelocity = Vector3.zero;
     }
 }
 
