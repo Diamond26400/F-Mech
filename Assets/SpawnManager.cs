@@ -1,6 +1,8 @@
 using System.Collections;
 using UnityEngine;
 
+
+
 public class SpawnManagerX : MonoBehaviour
 {
     public GameObject enemyPrefab;
@@ -15,18 +17,40 @@ public class SpawnManagerX : MonoBehaviour
     public int waveCount = 1;
 
     public GameObject player;
+    private bool playerLeftPlane = false;
 
+    void OnTriggerEnter(Collider other)
+    {
+        if (other.CompareTag("Player"))
+        {
+            playerLeftPlane = false;
+        }
+    }
+
+    void OnTriggerExit(Collider other)
+    {
+        if (other.CompareTag("Player"))
+        {
+            // Player exited the trigger, trigger game over
+            GameOver();
+        }
+        else if (other.CompareTag("Enemy"))
+        {
+            // Enemy exited the trigger, spawn a new wave
+            SpawnNewWave();
+        }
+    }
     void Update()
     {
         enemyCount = GameObject.FindGameObjectsWithTag("Enemy").Length;
 
-        if (enemyCount == 0 && waveManager != null)
+        if (playerLeftPlane && enemyCount == 0 && waveManager != null)
         {
             float currentEnemySpeed = waveManager.GetEnemySpeedForCurrentWave();
 
             if (enemyPrefab != null)
             {
-                // Call a method to spawn the enemy wave with the updated speed
+
                 StartCoroutine(SpawnEnemyWaveCoroutine(waveCount, currentEnemySpeed));
             }
             else
@@ -34,6 +58,19 @@ public class SpawnManagerX : MonoBehaviour
                 Debug.LogError("Enemy prefab is not assigned to the SpawnManagerX script.");
             }
         }
+    }
+    void GameOver()
+    {
+        // Implement your game over logic here
+        Debug.Log("Game Over");
+        // You might want to show a game over screen, reset the level, etc.
+    }
+
+    void SpawnNewWave()
+    {
+        // Implement your logic to spawn a new wave
+        Debug.Log("Spawning new wave");
+        // You can call your existing spawning logic here
     }
 
     IEnumerator SpawnEnemyWaveCoroutine(int enemiesToSpawn, float enemySpeed)
@@ -47,7 +84,7 @@ public class SpawnManagerX : MonoBehaviour
                 Enemy enemyScript = newEnemy.GetComponent<Enemy>();
                 if (enemyScript != null)
                 {
-                    enemyScript.speed = enemySpeed; // Set the enemy speed
+                    enemyScript.speed = enemySpeed;
                 }
                 else
                 {
@@ -59,7 +96,7 @@ public class SpawnManagerX : MonoBehaviour
                 Debug.LogError("Failed to instantiate enemy prefab.");
             }
 
-            yield return null; // Wait for the next frame before spawning the next enemy
+            yield return null;
         }
 
         waveCount++;
@@ -80,5 +117,6 @@ public class SpawnManagerX : MonoBehaviour
         return new Vector3(xPos, 0, zPos);
     }
 }
+
 
 
