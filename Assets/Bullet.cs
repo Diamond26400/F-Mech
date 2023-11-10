@@ -5,12 +5,12 @@ using UnityEngine;
 public class Bullet : MonoBehaviour
 {
     private float speed = 25.0f;
-    public Transform position;
+    public Transform playerTransform;
     public GameObject bullet;
     // Start is called before the first frame update
     void Start()
     {
-
+        playerTransform = GameObject.FindGameObjectWithTag("Player").transform;
     }
 
     // Update is called once per frame
@@ -39,7 +39,7 @@ public class Bullet : MonoBehaviour
     {
         // Spawn a bullet at the player's position
         // Assuming the playerTransform is assigned in the inspector
-        Instantiate(this, position.position, position.rotation);
+        Instantiate(this, playerTransform.position, playerTransform.rotation);
     }
 }
 
