@@ -151,4 +151,4 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   playerTransform: {fileID: 0}
-  bullet: {fileID: 0}
+  bullet: {fileID: 4338278924918337033}

@@ -39,7 +39,7 @@ public class Bullet : MonoBehaviour
     {
         // Spawn a bullet at the player's position
         // Assuming the playerTransform is assigned in the inspector
-        Instantiate(this, playerTransform.position, playerTransform.rotation);
+        Instantiate(this, transform.position, transform.rotation);
     }
 }
 
