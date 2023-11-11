@@ -16,8 +16,7 @@ public class Bullet : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-
-        Shoot();
+       
 
     }
 
@@ -32,19 +31,6 @@ public class Bullet : MonoBehaviour
         }
     }
 
-    void Shoot()
-    {
-        // Spawn a bullet at the player's position
-        // Assuming the playerTransform is assigned in the inspector
-
-        if (Input.GetKeyDown(KeyCode.Space))
-        {
-            transform.Translate(Vector3.forward * speed * Time.deltaTime);
-            GameObject bullet = Instantiate(this.gameObject, transform.position, transform.rotation);
-            Destroy(bullet, 3.0f); // Destroy the bullet after 3 seconds (adjust as needed)
-        }
-        
-      
-    }
+    
 }
 
